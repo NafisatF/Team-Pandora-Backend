@@ -28,4 +28,4 @@ const landlordSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("User", landlordSchema);
+module.exports = mongoose.model("Landlord", landlordSchema);

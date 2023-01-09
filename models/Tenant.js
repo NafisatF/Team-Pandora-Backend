@@ -28,4 +28,4 @@ const tenantSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("User", tenantSchema);
+module.exports = mongoose.model("Tenant", tenantSchema);

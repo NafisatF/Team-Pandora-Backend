@@ -16,7 +16,7 @@ const houseSchema = new Schema({
   },
   model: {
     type: String,
-    required: true,
+    required: false,
   },
   plan: {
     type: String,
@@ -42,4 +42,4 @@ const houseSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("House", houseSchema);
+module.exports = mongoose.model("Houses", houseSchema);

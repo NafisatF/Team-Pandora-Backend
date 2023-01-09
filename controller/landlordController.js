@@ -1,34 +1,73 @@
 const bcrypt = require("bcrypt");
 // const Book = require("../models/Book");
-const House = require("../models/Book");
+const Houses = require("../models/House");
+const Landlord = require("../models/Landlord");
 const cloudinary = require("../utils/Cloudinary");
 
 const upload = async (req, res) => {
   try {
-    console.log(req.user._doc._id);
+    console.log(req.user._doc._id, "doc id");
     const result = await cloudinary.uploader.upload(req.file.path);
-    let book = new Book({
+    let newHouse = new Houses({
       title: req.body.title,
-      imageUrl: req.body.imageUrl,
-      author: req.body.author,
-      referencenumber: req.body.referencenumber,
-      format: req.body.format,
-      language: req.body.language,
-      isbn3: req.body.isbn3,
-      releasedate: req.body.releasedate,
-      publisher: req.body.publisher,
-      weight: req.body.weight,
-      downloadurl: result.secure_url,
-      userId: req.user._doc._id,
-      category: req.body.category,
+      address: req.body.address,
+      state: req.body.state,
+      model: req.body.model,
+      plan: req.body.plan,
+      description: req.body.description,
+      uploadedDate: req.body.uploadedDate,
+      landlordName: req.body.landlordName,
     });
 
     res.status(201).json({
-      message: "Book uploaded successfully",
+      message: "New House uploaded successfully",
       data: {
-        ...book,
+        ...newHouse,
       },
     });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const handleLogin = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res
+      .status(400)
+      .json({ message: "Email and password are required " });
+
+  try {
+    //password encryption
+
+    const user = await Landlord.findOne({ email });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: `No Landlord found with these credentials` });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.status(400).json({ error: `Invalid credentials` });
+    }
+
+    delete user, password;
+    const accessToken = jwt.sign(
+      {
+        ...user,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    //create and store new user
+
+    res
+      .status(200)
+      .json({ success: `Logged in succesfully`, data: { token: accessToken } });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -43,4 +82,4 @@ const list = async (req, res) => {
     .json({ message: "Fetched houses successfully", data: [...houses] });
 };
 
-module.exports = { upload, list };
+module.exports = { upload, list, handleLogin };
