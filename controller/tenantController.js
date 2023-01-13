@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
-const Book = require("../models/Book");
 const Houses = require("../models/House");
 const Tenant = require("../models/Tenant");
 const cloudinary = require("../utils/Cloudinary");
+
+const jwt = require("jsonwebtoken");
 
 const list = async (req, res) => {
   const param = req.query;
@@ -46,10 +47,24 @@ const handleLogin = async (req, res) => {
     );
 
     //create and store new user
+    const { _id, firstname, lastname, emailaddress, city } = user;
 
-    res
-      .status(200)
-      .json({ success: `Logged in succesfully`, data: { token: accessToken } });
+    res.status(200).json({
+      success: `Logged in succesfully`,
+      data: {
+        user: {
+          id: _id,
+          name: `${firstname} ${lastname}`,
+          email: emailaddress,
+          city,
+        },
+      },
+      authorization: {
+        token: accessToken,
+        type: "bearer",
+        role: "tenant",
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
-const Houses = require("../models/House");
-const Landlord = require("../models/Landlord");
+const Tenants = require("../models/Tenant");
+const Landlords = require("../models/Landlord");
+const Admins = require("../models/Admin");
 const cloudinary = require("../utils/Cloudinary");
 const jwt = require("jsonwebtoken");
 
@@ -8,7 +9,7 @@ const upload = async (req, res) => {
   try {
     console.log(req.user._doc._id, "doc id");
 
-    // await cloudinary.uploader.upload(req.file.path);
+    await cloudinary.uploader.upload(req.file.path);
 
     let newHouse = await Houses.create({
       title: req.body.title,
@@ -18,8 +19,7 @@ const upload = async (req, res) => {
       plan: req.body.plan,
       description: req.body.description,
       uploadedDate: req.body.uploadedDate,
-      imageUrl: req.body.imageUrl,
-      id: req.body.landlordId,
+      landlordName: req.body.landlordName,
     });
 
     res.status(201).json({
@@ -43,12 +43,12 @@ const handleLogin = async (req, res) => {
   try {
     //password encryption
 
-    const user = await Landlord.findOne({ email });
+    const user = await Admins.findOne({ email });
 
     if (!user) {
       return res
         .status(400)
-        .json({ error: `No Landlord found with these credentials` });
+        .json({ error: `No Admin found with these credentials` });
     }
 
     const match = await bcrypt.compare(password, user.password);
@@ -90,13 +90,36 @@ const handleLogin = async (req, res) => {
   }
 };
 
-const list = async (req, res) => {
+const listTenants = async (req, res) => {
   const param = req.query;
-  const houses = await Houses.find({ ...param });
+  const tenants = await Tenants.find({ ...param });
 
   res
     .status(200)
-    .json({ message: "Fetched houses successfully", data: [...houses] });
+    .json({ message: "Fetched tenants successfully", data: [...tenants] });
+};
+const listLandlords = async (req, res) => {
+  const param = req.query;
+  const landlords = await Landlords.find({ ...param });
+  console.log(landlords, "the landlords");
+
+  res
+    .status(200)
+    .json({ message: "Fetched landlords successfully", data: [...landlords] });
+};
+const listAdmins = async (req, res) => {
+  const param = req.query;
+  const admins = await Admins.find({ ...param });
+
+  res
+    .status(200)
+    .json({ message: "Fetched admins successfully", data: [...admins] });
 };
 
-module.exports = { upload, list, handleLogin };
+module.exports = {
+  upload,
+  listAdmins,
+  listLandlords,
+  listTenants,
+  handleLogin,
+};
