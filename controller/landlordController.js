@@ -6,10 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const upload = async (req, res) => {
   try {
-    console.log(req.user._doc._id, "doc id");
-
-    // await cloudinary.uploader.upload(req.file.path);
-
     let newHouse = await Houses.create({
       address: req.body.address,
       state: req.body.state,
@@ -18,7 +14,7 @@ const upload = async (req, res) => {
       description: req.body.description,
       uploadedDate: req.body.uploadedDate,
       imageUrl: req.body.imageUrl,
-      landLordId: req.body.landlordId,
+      id: req.body.id,
       parkingSpaces: req.body.parkingSpaces,
       bathrooms: req.body.bathrooms,
       bedrooms: req.body.bedrooms,
