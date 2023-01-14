@@ -6,6 +6,10 @@ const houseSchema = new Schema({
     type: String,
     required: true,
   },
+  price: {
+    type: String,
+    required: true,
+  },
   state: {
     type: String,
     required: true,
@@ -43,7 +47,7 @@ const houseSchema = new Schema({
     type: String,
     required: true,
   },
-  packingSpaces: {
+  parkingSpaces: {
     type: String,
     required: true,
   },
