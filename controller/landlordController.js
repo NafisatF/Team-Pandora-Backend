@@ -11,7 +11,6 @@ const upload = async (req, res) => {
     // await cloudinary.uploader.upload(req.file.path);
 
     let newHouse = await Houses.create({
-      title: req.body.title,
       address: req.body.address,
       state: req.body.state,
       model: req.body.model,
@@ -19,7 +18,11 @@ const upload = async (req, res) => {
       description: req.body.description,
       uploadedDate: req.body.uploadedDate,
       imageUrl: req.body.imageUrl,
-      id: req.body.landlordId,
+      id: req.body.id,
+      parkingSpaces: req.body.parkingSpaces,
+      bathrooms: req.body.bathrooms,
+      bedrooms: req.body.bedrooms,
+      price: req.body.price,
     });
 
     res.status(201).json({
