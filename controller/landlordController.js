@@ -93,13 +93,13 @@ const handleLogin = async (req, res) => {
   }
 };
 
-const list = async (req, res) => {
+const listHouses = async (req, res) => {
   const param = req.query;
   const houses = await Houses.find({ ...param });
 
   res
     .status(200)
-    .json({ message: "Fetched houses successfully", data: [...houses] });
+    .json({ message: "Fetched landlord successfully", data: [...houses] });
 };
 
-module.exports = { upload, list, handleLogin };
+module.exports = { upload, listHouses, handleLogin };

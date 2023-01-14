@@ -15,6 +15,7 @@ router.post("/admin-login", adminController.handleLogin);
 router.post("/tenant-login", tenantController.handleLogin);
 router.post("/landlord-login", landlordController.handleLogin);
 router.get("/listhouses", tenantController.list);
+router.get("/getLandlordHouses/:id", landlordController.listHouses);
 router.get("/listTenants", authenticateToken, adminController.listTenants);
 router.get("/listLandlords", authenticateToken, adminController.listLandlords);
 router.get("/listAdmins", authenticateToken, adminController.listAdmins);
