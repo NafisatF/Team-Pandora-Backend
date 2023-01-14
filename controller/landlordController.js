@@ -14,7 +14,7 @@ const upload = async (req, res) => {
       description: req.body.description,
       uploadedDate: req.body.uploadedDate,
       imageUrl: req.body.imageUrl,
-      id: req.body.id,
+      landlordId: req.body.landlordId,
       parkingSpaces: req.body.parkingSpaces,
       bathrooms: req.body.bathrooms,
       bedrooms: req.body.bedrooms,
@@ -90,8 +90,9 @@ const handleLogin = async (req, res) => {
 };
 
 const listHouses = async (req, res) => {
-  const param = req.query;
-  const houses = await Houses.find({ ...param });
+  const param = req.path.split(":")[1];
+  console.log(param, "the param");
+  const houses = await Houses.find({ param });
 
   res
     .status(200)

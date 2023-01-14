@@ -30,7 +30,7 @@ const houseSchema = new Schema({
     type: Date,
     required: true,
   },
-  id: {
+  landlordId: {
     type: String,
     required: true,
   },
