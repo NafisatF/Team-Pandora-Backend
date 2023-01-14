@@ -24,7 +24,6 @@ const houseSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
   },
 
   uploadedDate: {
