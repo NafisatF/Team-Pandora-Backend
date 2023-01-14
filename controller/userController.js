@@ -15,7 +15,8 @@ const handleNewUser = async (req, res) => {
   let result;
   try {
     //password encryption
-    const hashedPwd = await bcrypt.hash(password, 8);
+    const salt = await bcrypt.genSalt(12);
+    const hashedPwd = await bcrypt.hash(password, salt);
     switch (userType) {
       case "landlord": {
         const duplicate = await Landlord.findOne({
@@ -23,7 +24,6 @@ const handleNewUser = async (req, res) => {
         }).exec();
 
         console.log(duplicate);
-
         if (duplicate) return res.sendStatus(409);
 
         result = await Landlord.create({
@@ -34,7 +34,9 @@ const handleNewUser = async (req, res) => {
           city,
           userType,
         });
-        res.status(201).json({ success: `New ${userType} ${email} created!` });
+        return res
+          .status(201)
+          .json({ success: `New ${userType} ${email} created!` });
       }
       case "tenant": {
         const duplicate = await Tenant.findOne({
@@ -53,7 +55,9 @@ const handleNewUser = async (req, res) => {
           city,
           userType,
         });
-        res.status(201).json({ success: `New ${userType} ${email} created!` });
+        return res
+          .status(201)
+          .json({ success: `New ${userType} ${email} created!` });
       }
       case "admin": {
         const duplicate = await Admin.findOne({
@@ -71,7 +75,9 @@ const handleNewUser = async (req, res) => {
           lastname,
           userType,
         });
-        res.status(201).json({ success: `New ${userType} ${email} created!` });
+        return res
+          .status(201)
+          .json({ success: `New ${userType} ${email} created!` });
       }
       default:
         return res.status(400).json({

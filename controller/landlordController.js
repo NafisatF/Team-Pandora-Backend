@@ -43,7 +43,7 @@ const handleLogin = async (req, res) => {
   try {
     //password encryption
 
-    const user = await Landlord.findOne({ email });
+    const user = await Landlord.findOne({ emailaddress: email });
 
     if (!user) {
       return res

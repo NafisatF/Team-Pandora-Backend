@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const houseSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
   address: {
     type: String,
     required: true,
@@ -36,6 +32,18 @@ const houseSchema = new Schema({
     required: true,
   },
   imageUrl: {
+    type: String,
+    required: true,
+  },
+  bathrooms: {
+    type: String,
+    required: true,
+  },
+  bedrooms: {
+    type: String,
+    required: true,
+  },
+  packingSpaces: {
     type: String,
     required: true,
   },

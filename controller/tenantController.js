@@ -15,6 +15,7 @@ const list = async (req, res) => {
 };
 const handleLogin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, "the email");
   if (!email || !password)
     return res
       .status(400)
@@ -23,14 +24,14 @@ const handleLogin = async (req, res) => {
   try {
     //password encryption
 
-    const user = await Tenant.findOne({ email });
+    const user = await Tenant.findOne({ emailaddress: email });
 
     if (!user) {
       return res
         .status(400)
         .json({ error: `No tenant found with these credentials` });
     }
-
+    console.log(user, "the user");
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
