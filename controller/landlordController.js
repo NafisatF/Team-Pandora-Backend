@@ -18,7 +18,7 @@ const upload = async (req, res) => {
       description: req.body.description,
       uploadedDate: req.body.uploadedDate,
       imageUrl: req.body.imageUrl,
-      id: req.body.id,
+      landLordId: req.body.id,
       parkingSpaces: req.body.parkingSpaces,
       bathrooms: req.body.bathrooms,
       bedrooms: req.body.bedrooms,
