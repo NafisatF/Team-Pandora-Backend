@@ -90,9 +90,8 @@ const handleLogin = async (req, res) => {
 };
 
 const listHouses = async (req, res) => {
-  const param = req.path.split(":")[1];
-  console.log(param, "the param");
-  const houses = await Houses.find({ param });
+  const param = req.params.landlordId;
+  const houses = await Houses.find({ landlordId: param });
 
   res
     .status(200)
